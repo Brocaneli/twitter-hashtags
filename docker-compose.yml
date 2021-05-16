@@ -14,6 +14,7 @@ services:
 
     app:
         image: brocaneli/twitter-hashtags:latest
+        container_name: app
         depends_on: [db]
         links: 
         - db
@@ -23,3 +24,28 @@ services:
         - MYSQL_USER=user
         - MYSQL_PASSWORD=pass
         - TOKEN=AAAAAAAAAAAAAAAAAAAAANauPgEAAAAAaI9AKNPQRqk9cQpGexh1cbB1huo%3D9QZHoxPi581aZMpqEKzeJ9VWWgjehtf51IPg05IcKPL2tx0x0f
+    
+    prometheus:
+        image: prom/prometheus
+        depends_on: 
+        - app
+        links:
+        - app
+        volumes:
+            - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+        ports:
+            - 9090:9090
+
+    grafana:
+        image: grafana/grafana
+        volumes:
+            - ./monitoring/datasource.yml:/etc/grafana/provisioning/datasource.yml
+        environment:
+        - GF_SECURITY_ADMIN_PASSWORD=pass@123
+        - GF_USERS_ALLOW_SIGN_UP=false
+        ports:
+            - 3000:3000
+        links: 
+            - prometheus
+        depends_on:
+            - prometheus
