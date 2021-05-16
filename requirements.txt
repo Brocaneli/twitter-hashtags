@@ -3,3 +3,4 @@ mysql-connector
 futures
 datetime
 requests
+prometheus_flask_exporter

@@ -13,7 +13,7 @@ services:
         - ./scripts:/docker-entrypoint-initdb.d/:ro
 
     app:
-        image: brocaneli:latest
+        image: brocaneli/twitter-hashtags:latest
         depends_on: [db]
         links: 
         - db
