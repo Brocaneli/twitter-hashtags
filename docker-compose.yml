@@ -1,0 +1,25 @@
+version: "2"
+services:
+    db:
+        image: mysql:5.7
+        ports:
+        - "3307:3306"
+        environment:
+        - MYSQL_ROOT_PASSWORD=pass
+        - MYSQL_USER=user
+        - MYSQL_PASSWORD=pass
+        - MYSQL_DATABASE=twitter
+        volumes: 
+        - ./scripts:/docker-entrypoint-initdb.d/:ro
+
+    app:
+        image: brocaneli:latest
+        depends_on: [db]
+        links: 
+        - db
+        ports: 
+        - "5000:5000"
+        environment:
+        - MYSQL_USER=user
+        - MYSQL_PASSWORD=pass
+        - TOKEN=AAAAAAAAAAAAAAAAAAAAANauPgEAAAAAaI9AKNPQRqk9cQpGexh1cbB1huo%3D9QZHoxPi581aZMpqEKzeJ9VWWgjehtf51IPg05IcKPL2tx0x0f
