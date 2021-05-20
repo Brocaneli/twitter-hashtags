@@ -9,16 +9,16 @@ from concurrent.futures import ThreadPoolExecutor
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
 HASHTAGS = [
-    "openbanking", 
-    "remediation", 
-    "devops", 
-    "sre", 
-    "microservices", 
-    "observability", 
-    "oauth", 
-    "metrics",
-    "logmonitoring",
-    "opentracing"
+    "#openbanking", 
+    "#remediation", 
+    "#devops", 
+    "#sre", 
+    "#microservices", 
+    "#observability", 
+    "#oauth", 
+    "#metrics",
+    "#logmonitoring",
+    "#opentracing"
 ]
 
 TWITTER_API_URL = "https://api.twitter.com/2/tweets/search/recent?query="

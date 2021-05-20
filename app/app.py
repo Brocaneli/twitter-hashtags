@@ -29,7 +29,7 @@ def page_not_found(e):
 def tweets_all():
     conn = connector.connect(user=MYSQL_USER, password=MYSQL_PASS, host='db', database='twitter')
     get_tweets = "SELECT * FROM Tweets"
-    cursor = conn.cursor()
+    cursor = conn.cursor(dictionary=True)
     cursor.execute(get_tweets)
     result = cursor.fetchall()
 
@@ -57,7 +57,7 @@ def tweets_filter():
 
     get_tweets_filtered = get_tweets_filtered[:-4]
 
-    cursor = conn.cursor()
+    cursor = conn.cursor(dictionary=True)
     cursor.execute(get_tweets_filtered)
     result = cursor.fetchall()
 
@@ -67,7 +67,7 @@ def tweets_filter():
 def tweets_by_hour():
     conn = connector.connect(user=MYSQL_USER, password=MYSQL_PASS, host='db', database='twitter')
     get_tweets = "SELECT count( idTweets ) , date_format( date, '%Y-%m-%d %H' ) as my_date from Tweets GROUP BY my_date order by 'date'"
-    cursor = conn.cursor()
+    cursor = conn.cursor(dictionary=True)
     cursor.execute(get_tweets)
     result = cursor.fetchall()
 
@@ -77,7 +77,7 @@ def tweets_by_hour():
 def tweets_by_lang():
     conn = connector.connect(user=MYSQL_USER, password=MYSQL_PASS, host='db', database='twitter')
     get_tweets = "select Hashtags_name, language, count(idTweets) from Tweets group by Hashtags_name, language"
-    cursor = conn.cursor()
+    cursor = conn.cursor(dictionary=True)
     cursor.execute(get_tweets)
     result = cursor.fetchall()
 
@@ -87,7 +87,7 @@ def tweets_by_lang():
 def users_all():
     conn = connector.connect(user=MYSQL_USER, password=MYSQL_PASS, host='db', database='twitter')
     get_users = "SELECT * FROM Users"
-    cursor = conn.cursor()
+    cursor = conn.cursor(dictionary=True)
     cursor.execute(get_users)
     result = cursor.fetchall()
 
@@ -97,7 +97,7 @@ def users_all():
 def users_top5():
     conn = connector.connect(user=MYSQL_USER, password=MYSQL_PASS, host='db', database='twitter')
     get_users = "SELECT * FROM Users ORDER BY followers DESC;"
-    cursor = conn.cursor()
+    cursor = conn.cursor(dictionary=True)
     cursor.execute(get_users)
     result = cursor.fetchall()[0:5]
 
@@ -108,7 +108,7 @@ def users_top5():
 def hashtags_all():
     conn = connector.connect(user=MYSQL_USER, password=MYSQL_PASS, host='db', database='twitter')
     get_hashtags = "SELECT * FROM Hashtags"
-    cursor = conn.cursor()
+    cursor = conn.cursor(dictionary=True)
     cursor.execute(get_hashtags)
     result = cursor.fetchall()
 
