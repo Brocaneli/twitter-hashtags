@@ -1,3 +1,3 @@
 docker build -t brocaneli/twitter-hashtags:latest . 
 docker-compose up -d
-echo "Waiting for web application to start"
+echo "Waiting for web application to start" && sleep 30

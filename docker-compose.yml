@@ -4,6 +4,7 @@ services:
         image: mysql:5.7
         ports:
         - "3307:3306"
+        container_name: db
         environment:
         - MYSQL_ROOT_PASSWORD=pass
         - MYSQL_USER=user
@@ -30,6 +31,7 @@ services:
     
     prometheus:
         image: prom/prometheus
+        container_name: prometheus
         depends_on: 
         - app
         links:
@@ -41,6 +43,7 @@ services:
 
     grafana:
         image: grafana/grafana
+        container_name: grafana
         volumes:
             - ./monitoring/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
             - ./monitoring/dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yml
@@ -88,5 +91,7 @@ services:
         - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
         links:
         - elasticsearch
+        volumes: 
+        - ./logging/kibana.yml:/opt/kibana/config/kibana.yml
         depends_on: 
         - elasticsearch

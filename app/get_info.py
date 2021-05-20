@@ -33,8 +33,6 @@ def insert_hashtag(cursor, hashtag):
     cursor.execute("INSERT INTO Hashtags (name) VALUES ('{}')".format(hashtag.replace("%23","#")))
 
 def insert_tweets(tweet, cursor, hashtag):
-    print(tweet)
-    print(cursor)
     data_tweet = (int(tweet['id']), tweet['lang'], tweet['text'], datetime.strptime(str(tweet['created_at']), "%Y-%m-%dT%H:%M:%S.%fZ"), hashtag.replace("%23","#"), int(tweet['author_id']))
     add_tweet = (
         "INSERT INTO Tweets "
@@ -44,8 +42,6 @@ def insert_tweets(tweet, cursor, hashtag):
     cursor.execute(add_tweet, data_tweet)
 
 def insert_users(user, cursor):
-    print(user)
-    print(cursor)
     data_user = (int(user['id']), user['username'], int(user['public_metrics']['followers_count']))
     add_user = (
         "INSERT INTO Users "
@@ -64,23 +60,25 @@ def get_from_twitter(hashtag):
     ).format(hashtag)
 
     twitter_data = json.loads(requests.request("GET", "{}{}".format(TWITTER_API_URL, query), headers=HEADERS).text)
+    try:
+        tweets = twitter_data['data']
+        users = twitter_data['includes']['users']
 
-    tweets = twitter_data['data']
-    users = twitter_data['includes']['users']
+        conn = connector.connect(user=MYSQL_USER, password=MYSQL_PASS, host='db', database='twitter')
+        cursor = conn.cursor()
 
-    conn = connector.connect(user=MYSQL_USER, password=MYSQL_PASS, host='db', database='twitter')
-    cursor = conn.cursor()
+        insert_hashtag(cursor, hashtag)
 
-    insert_hashtag(cursor, hashtag)
+        with ThreadPoolExecutor(max_workers=1) as pool:
+            pool.map(partial(insert_users, cursor=cursor), users)
 
-    with ThreadPoolExecutor(max_workers=1) as pool:
-        pool.map(partial(insert_users, cursor=cursor), users)
+        with ThreadPoolExecutor(max_workers=1) as pool:
+            pool.map(partial(insert_tweets, cursor=cursor, hashtag=hashtag), tweets)
 
-    with ThreadPoolExecutor(max_workers=1) as pool:
-        pool.map(partial(insert_tweets, cursor=cursor, hashtag=hashtag), tweets)
-
-    conn.commit()
-    conn.close()
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        print(e)
 
 def main():
     for hashtag in HASHTAGS:
