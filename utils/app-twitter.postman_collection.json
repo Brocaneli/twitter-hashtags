@@ -1,0 +1,123 @@
+{
+	"variables": [],
+	"info": {
+		"name": "app-twitter",
+		"_postman_id": "ac840020-175f-f902-49e5-e48e0afd7499",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "All Tweets",
+			"request": {
+				"url": "http://localhost:5000/api/v1/resources/tweets/all",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Request all tweets from database"
+			},
+			"response": []
+		},
+		{
+			"name": "Tweets by params",
+			"request": {
+				"url": {
+					"raw": "http://localhost:5000/api/v1/resources/tweets?lang=pt&hash=%23devops",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"resources",
+						"tweets"
+					],
+					"query": [
+						{
+							"key": "lang",
+							"value": "pt",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "hash",
+							"value": "%23devops",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "author_id",
+							"value": "",
+							"equals": false,
+							"description": "",
+							"disabled": true
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Get tweets specifying language, author and/or hashtag"
+			},
+			"response": []
+		},
+		{
+			"name": "Tweets by hour",
+			"request": {
+				"url": "http://localhost:5000/api/v1/resources/tweets/by_hour",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Returns the amount of tweets in a hour "
+			},
+			"response": []
+		},
+		{
+			"name": "Tweets by lang and hash",
+			"request": {
+				"url": "http://localhost:5000/api/v1/resources/tweets/by_lang",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Returns the amount of tweets made by language for each hashtag"
+			},
+			"response": []
+		},
+		{
+			"name": "All Users",
+			"request": {
+				"url": "http://localhost:5000/api/v1/resources/users/all",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Returns all twitter users stored in the database"
+			},
+			"response": []
+		},
+		{
+			"name": "Users Top 5",
+			"request": {
+				"url": "http://localhost:5000/api/v1/resources/users/top5",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Returns the 5 users with more followers"
+			},
+			"response": []
+		},
+		{
+			"name": "All Hashtags",
+			"request": {
+				"url": "http://localhost:5000/api/v1/resources/hashtags/all",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Returns all hashtags stored in the database"
+			},
+			"response": []
+		}
+	]
+}
