@@ -10,7 +10,7 @@ datasources:
 
   type: prometheus
 
-  access: proxy
+  access: browser
 
   orgId: 1
 

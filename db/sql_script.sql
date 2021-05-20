@@ -40,7 +40,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `twitter`.`Tweets` (
   `idTweets` BIGINT(20) NOT NULL,
   `language` VARCHAR(45) NULL,
-  `text` VARCHAR(2000) NULL,
+  `text` TEXT NULL,
   `date` DATETIME NULL,
   `Hashtags_name` VARCHAR(45) NOT NULL,
   `Users_idUsers` BIGINT(20) NOT NULL,

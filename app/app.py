@@ -1,13 +1,9 @@
 import flask
-import logging
 import mysql.connector as connector
 import os
 
 from flask import request, jsonify
 from prometheus_flask_exporter import PrometheusMetrics
-
-logging.basicConfig(level=logging.INFO)
-logging.info("Setting LOGLEVEL to INFO")
 
 app = flask.Flask(__name__)
 metrics = PrometheusMetrics(app)
@@ -22,6 +18,7 @@ def home():
 <p>API to read data stored from Twitter</p>'''
 
 @app.errorhandler(404)
+@metrics.counter('error', 'Number of invocations by type')
 def page_not_found(e):
     return "<h1>404</h1><p>The resource could not be found.</p>", 404
 

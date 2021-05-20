@@ -9,16 +9,16 @@ from concurrent.futures import ThreadPoolExecutor
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
 HASHTAGS = [
-    "#openbanking", 
-    "#remediation", 
-    "#devops", 
-    "#sre", 
-    "#microservices", 
-    "#observability", 
-    "#oauth", 
-    "#metrics",
-    "#logmonitoring",
-    "#opentracing"
+    "%23openbanking", 
+    "%23remediation", 
+    "%23devops", 
+    "%23sre", 
+    "%23microservices", 
+    "%23observability", 
+    "%23oauth", 
+    "%23metrics",
+    "%23logmonitoring",
+    "%23opentracing"
 ]
 
 TWITTER_API_URL = "https://api.twitter.com/2/tweets/search/recent?query="
@@ -30,12 +30,12 @@ MYSQL_USER = os.getenv("MYSQL_USER")
 MYSQL_PASS = os.getenv("MYSQL_PASSWORD")
 
 def insert_hashtag(cursor, hashtag):
-    cursor.execute("INSERT INTO Hashtags (name) VALUES ('{}')".format(hashtag))
+    cursor.execute("INSERT INTO Hashtags (name) VALUES ('{}')".format(hashtag.replace("%23","#")))
 
 def insert_tweets(tweet, cursor, hashtag):
     print(tweet)
     print(cursor)
-    data_tweet = (int(tweet['id']), tweet['lang'], tweet['text'], datetime.strptime(str(tweet['created_at']), "%Y-%m-%dT%H:%M:%S.%fZ"), hashtag, int(tweet['author_id']))
+    data_tweet = (int(tweet['id']), tweet['lang'], tweet['text'], datetime.strptime(str(tweet['created_at']), "%Y-%m-%dT%H:%M:%S.%fZ"), hashtag.replace("%23","#"), int(tweet['author_id']))
     add_tweet = (
         "INSERT INTO Tweets "
         "(idTweets, language, text, date, Hashtags_name, Users_idUsers) "

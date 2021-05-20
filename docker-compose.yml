@@ -42,7 +42,9 @@ services:
     grafana:
         image: grafana/grafana
         volumes:
-            - ./monitoring/datasource.yml:/etc/grafana/provisioning/datasource.yml
+            - ./monitoring/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+            - ./monitoring/dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yml
+            - ./monitoring/dashboard.json:/var/lib/grafana/dashboards/dasboard.json
         environment:
         - GF_SECURITY_ADMIN_PASSWORD=pass@123
         - GF_USERS_ALLOW_SIGN_UP=false
