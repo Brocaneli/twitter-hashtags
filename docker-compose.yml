@@ -10,7 +10,7 @@ services:
         - MYSQL_PASSWORD=pass
         - MYSQL_DATABASE=twitter
         volumes: 
-        - ./scripts:/docker-entrypoint-initdb.d/:ro
+        - ./db:/docker-entrypoint-initdb.d/:ro
 
     app:
         image: brocaneli/twitter-hashtags:latest
