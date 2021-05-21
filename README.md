@@ -39,7 +39,9 @@ A API foi construída utilizando o framework Flask, baseado na linguagem Python.
 - retornar todos os tweets para cada linguagem e hashtag
 
 A API acessa dados de um banco relacional Mysql, que conta com 3 tabelas, como pode ser observado no MER(Modelo Entidade Relacionamento) abaixo:
-![Alt text](./screenshots/MER.png)
+![Alt text](./screenshots/mer.png)
+
+O json de collection a ser importado no Postman se encontra dentro da pasta app.
 ## 4. Arquitetura
 Foi utilizado o docker compose para criação do ambiente. Docker compose possibilita o orquestramento de vários contêineres através de um único código.
 
@@ -68,5 +70,40 @@ Para derrubar o ambiente, basta rodar
 ```
 docker-compose down
 ```
+
+Por fim, o script faz um POST para o endereço do Kibana criar o index pattern e já ser possível observar os logs da aplicação em tempo real.
 ## 6. Logging
+Para acessar aos logs da aplicação, basta entrar no endereço do kibana, que irá rodar na porta 5061:
+
+http://localhost:5061
+
+E acessar a aba Discover. Os logs serão mostrados da seguinte forma:
+
+![Alt text](./screenshots/kibana_logs.png)
+
 ## 7. Monitoring
+Para acessar aos painéis de monitoramento, basta entrar no endereço do Grafana, que irá rodar na porta 3000:
+
+http://localhost:3000
+
+E colocar as credenciais:
+
+```admin:pass@123```
+
+A senha é customizável no docker-compose, para alterá-la e subir o ambiente com uma senha diferente, basta mudar o parâmetro "GF_SECURITY_ADMIN_PASSWORD" para o valor desejado, antes de rodar o script.
+
+O dashboard "Monitoring" estará dentro da pasta General
+
+![Alt text](./screenshots/dashboards.png)
+
+E será apresentado assim:
+
+![Alt text](./screenshots/monitoring.png)
+
+## 8. Outras informações úteis
+
+Prometheus: http://localhost:9090
+
+Elasticsearch: http://localhost:9200
+
+O usuário e senha do banco de dados mysql também é customizável pelo docker-compose.yml. Mas lembre-se de, caso queira alterá-los, mudar também os parâmetros do contêiner de aplicação para ficar iguais aos do banco.

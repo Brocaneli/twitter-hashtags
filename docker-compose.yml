@@ -91,7 +91,6 @@ services:
         - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
         links:
         - elasticsearch
-        volumes: 
-        - ./logging/kibana.yml:/opt/kibana/config/kibana.yml
         depends_on: 
         - elasticsearch
+        - logstash
