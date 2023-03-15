@@ -1,7 +1,7 @@
 elasticsearch
 Flask
 mysql-connector
-futures
+#futures
 datetime
 requests
 prometheus_flask_exporter

@@ -3,7 +3,9 @@ FROM python:3.8
 WORKDIR /app
 
 RUN apt update && \
-    apt install gunicorn -y
+    apt install gunicorn -y && \
+    pip install --upgrade pip && \
+    pip install setuptools
 
 COPY app/ /app
 
