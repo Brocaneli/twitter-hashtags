@@ -8,3 +8,5 @@ prometheus_flask_exporter
 python-json-logger
 gunicorn
 python3-logstash
+flake8
+pytest
