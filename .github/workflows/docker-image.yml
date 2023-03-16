@@ -24,7 +24,7 @@ jobs:
   #     run: |
   #       pylint $(git ls-files '*.py')
 
-  test:
+  lint-and-test:
       runs-on: ubuntu-latest
       steps:
       - uses: actions/checkout@v3
@@ -45,8 +45,8 @@ jobs:
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
       - name: Test with pytest
         run: |
-          echo "${PYTHONPATH}"
-          pytest
+          export PYTHONPATH=$(pwd)/app
+          pytest tests/*.py
 
   build-and-push:
     runs-on: ubuntu-latest
