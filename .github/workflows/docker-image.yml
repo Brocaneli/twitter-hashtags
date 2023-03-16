@@ -16,5 +16,6 @@ jobs:
         password: ${{ secrets.DOCKER_PASS }}
     - name: Build the Docker image
       run: | 
-        docker build . --file Dockerfile --tag brocaneli/twitter-hashtags:${{ github.sha }} brocaneli/twitter-hashtags:latest
+        docker build . --file Dockerfile --tag brocaneli/twitter-hashtags:${{ github.sha }}
+        docker tag brocaneli/twitter-hashtags:${{ github.sha }} brocaneli/twitter-hashtags:latest
         docker push brocaneli/twitter-hashtags:${{ github.sha }} brocaneli/twitter-hashtags:latest
