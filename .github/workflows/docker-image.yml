@@ -25,6 +25,7 @@ jobs:
   #       pylint $(git ls-files '*.py')
 
   lint-and-test:
+      on: push
       runs-on: ubuntu-latest
       steps:
       - uses: actions/checkout@v3
@@ -63,3 +64,4 @@ jobs:
         docker tag brocaneli/twitter-hashtags:${{ github.sha }} brocaneli/twitter-hashtags:latest
         docker push brocaneli/twitter-hashtags:${{ github.sha }} 
         docker push brocaneli/twitter-hashtags:latest
+    needs: lint-and-test
