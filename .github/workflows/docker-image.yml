@@ -1,9 +1,7 @@
-name: Build Docker Image
+name: Build And Push Docker Image
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
     branches: [ "main" ]
 
 jobs:
@@ -11,5 +9,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    - name: Docker Login
+      uses: docker/login-action@v2.1.0
+      with:
+        username: ${{ secrets.DOCKER_USER }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag brocaneli/twitter-hashtags:$(date +%s)
+      run: | 
+        docker build . --file Dockerfile -t brocaneli/twitter-hashtags:$(date +%s)
+        docker tag brocaneli/twitter-hashtags:$(date +%s) brocaneli/twitter-hashtags:latest
+        docker push brocaneli/twitter-hashtags
