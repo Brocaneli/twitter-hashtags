@@ -18,4 +18,5 @@ jobs:
       run: | 
         docker build . --file Dockerfile --tag brocaneli/twitter-hashtags:${{ github.sha }}
         docker tag brocaneli/twitter-hashtags:${{ github.sha }} brocaneli/twitter-hashtags:latest
-        docker push brocaneli/twitter-hashtags:${{ github.sha }} brocaneli/twitter-hashtags:latest
+        docker push brocaneli/twitter-hashtags:${{ github.sha }} 
+        docker push brocaneli/twitter-hashtags:latest
