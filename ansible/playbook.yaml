@@ -1,0 +1,60 @@
+---
+- name: Install docker
+  hosts: server
+  become: true
+  vars:
+    git_repo_url: "https://github.com/Brocaneli/twitter-hashtags.git"
+    git_dest_dir: "/home/adminuser/twitter-hashtags"
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install packages
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg-agent
+          - software-properties-common
+        state: present
+
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+        state: present
+
+    - name: Add user to Docker group
+      user:
+        name: adminuser
+        groups: docker
+        append: yes
+      become: true
+
+    - name: Restart Docker service
+      systemd:
+        name: docker
+        state: restarted
+      become: true
+
+    - name: Install Docker Compose
+      get_url:
+        url: https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64
+        dest: /usr/local/bin/docker-compose
+        mode: '0755'
+      become: true
+    
+    - name: Clone Git repository
+      git:
+        repo: "{{ git_repo_url }}"
+        dest: "{{ git_dest_dir }}"
+
+    - name: Execute Bash Script on Remote Server
+      become: true
+      shell: cd /home/adminuser/twitter-hashtags && ./start_environment.sh    

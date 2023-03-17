@@ -55,6 +55,18 @@ resource "azurerm_network_security_group" "example" {
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
+
+  security_rule {
+    name                       = "app"
+    priority                   = 1003
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "5001"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
 }
 
 # Define the network interface and attach it to the public IP and security group
@@ -102,4 +114,8 @@ resource "azurerm_linux_virtual_machine" "example" {
     sku       = "16.04-LTS"
     version   = "latest"
   }
+}
+
+output "public_ip" {
+  value = azurerm_public_ip.example.ip_address
 }
