@@ -17,6 +17,10 @@ def home():
     return '''<h1>Hello</h1>
 <p>API to read data stored from Twitter</p>'''
 
+@app.route('/teste', methods=['GET'])
+def home():
+    return '''<h1>Teste</h1>'''
+
 @app.errorhandler(404)
 @metrics.counter('error', 'Number of invocations by type')
 def page_not_found(e):
