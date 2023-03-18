@@ -18,7 +18,7 @@ def home():
 <p>API to read data stored from Twitter</p>'''
 
 @app.route('/teste', methods=['GET'])
-def home():
+def teste_marcus():
     return '''<h1>Teste</h1>'''
 
 @app.errorhandler(404)
