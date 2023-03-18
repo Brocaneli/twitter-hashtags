@@ -75,20 +75,17 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up SSH key for Azure VM
-      uses: shimataro/ssh-key-action@v2
-      with:
-        key: ${{ secrets.AZURE_SSH_PRIVATE_KEY }}
-        username: ${{ secrets.AZURE_VM_USERNAME }}
-        hostname: ${{ secrets.AZURE_VM_IP_ADDRESS }}
-
     - name: Install dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y ansible
 
-    - name: Run Ansible playbook
+    - name: Configure SSH key
       run: |
-        ansible-playbook ansible/deploy.yml -i ansible/inventory.ini
-      env:
-        ANSIBLE_HOST_KEY_CHECKING: false
+        mkdir -p ~/.ssh
+        echo "${{ secrets.AZURE_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H {{ secrets.AZURE_VM_IP_ADDRESS }} >> ~/.ssh/known_hosts
+
+    - name: Run Ansible playbook
+      run: ansible-playbook ansible/playbook.yml -i ansible/inventory.yml
