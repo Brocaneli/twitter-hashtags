@@ -6,19 +6,20 @@
     git_repo_url: "https://github.com/Brocaneli/twitter-hashtags.git"
     git_dest_dir: "/home/adminuser/twitter-hashtags"
   tasks:
-    - name: Update apt cache
+    - name: Update apt package cache
       apt:
         update_cache: yes
 
-    - name: Install packages
+    - name: Install Docker dependencies
       apt:
-        name:
-          - apt-transport-https
-          - ca-certificates
-          - curl
-          - gnupg-agent
-          - software-properties-common
+        name: "{{ item }}"
         state: present
+      loop:
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - gnupg-agent
+        - software-properties-common
 
     - name: Add Docker GPG key
       apt_key:
@@ -27,28 +28,25 @@
 
     - name: Add Docker repository
       apt_repository:
-        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
         state: present
 
-    - name: Add user to Docker group
+    - name: Install Docker
+      apt:
+        name: docker-ce
+        state: present
+
+    - name: Add user to docker group
       user:
         name: adminuser
         groups: docker
         append: yes
-      become: true
-
-    - name: Restart Docker service
-      systemd:
-        name: docker
-        state: restarted
-      become: true
 
     - name: Install Docker Compose
       get_url:
         url: https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64
         dest: /usr/local/bin/docker-compose
-        mode: '0755'
-      become: true
+        mode: "u+x,g+x"
     
     - name: Clone Git repository
       git:

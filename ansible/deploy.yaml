@@ -1,0 +1,25 @@
+- name: Kill and recreate container
+  hosts: server
+  become: true
+  vars:
+    docker_compose_file: /home/adminuser/twitter-hashtags/docker-compose.yml
+    service_name: app
+    image_name: brocaneli/twitter-hashtags
+  tasks:
+    # Stop and remove the existing container
+    - name: Stop and remove the existing container
+      command: >
+        docker-compose -f {{ docker_compose_file }}
+        rm -sf {{ service_name }}
+
+    # Pull the latest image
+    - name: Pull the latest image
+      command: >
+        docker-compose -f {{ docker_compose_file }}
+        pull {{ service_name }}
+
+    # Recreate the container with the latest image
+    - name: Recreate the container
+      command: >
+        docker-compose -f {{ docker_compose_file }}
+        up -d --no-deps --force-recreate {{ service_name }}
